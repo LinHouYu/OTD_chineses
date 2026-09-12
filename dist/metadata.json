@@ -1,0 +1,10 @@
+﻿{
+  "Name": "ChineseLocalization",
+  "Owner": "LinHouYu",
+  "Description": "OpenTabletDriver 简体中文界面汉化增强插件 (Chinese Localization Plugin)",
+  "PluginVersion": "1.0.0",
+  "SupportedDriverVersion": "0.6.0.0",
+  "RepositoryUrl": "https://github.com/LinHouYu/OTD_chineses",
+  "CompressionFormat": "zip",
+  "LicenseIdentifier": "GPL-3.0-only"
+}

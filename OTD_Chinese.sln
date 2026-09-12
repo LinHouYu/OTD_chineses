@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChineseLocalizationHook", "src\ChineseLocalizationHook\ChineseLocalizationHook.csproj", "{DEA1085B-3DEA-4B89-A005-AE39BA37536B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChineseLocalizationPlugin", "src\ChineseLocalizationPlugin\ChineseLocalizationPlugin.csproj", "{45294517-E94F-4D16-AA9D-5EC169CA3C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTD-Launcher", "src\OTD-Launcher\OTD-Launcher.csproj", "{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|x64.Build.0 = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Debug|x86.Build.0 = Debug|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|x64.ActiveCfg = Release|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|x64.Build.0 = Release|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B}.Release|x86.Build.0 = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|x64.Build.0 = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Debug|x86.Build.0 = Debug|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|x64.ActiveCfg = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|x64.Build.0 = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|x86.ActiveCfg = Release|Any CPU
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98}.Release|x86.Build.0 = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|x64.Build.0 = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Debug|x86.Build.0 = Debug|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|x64.ActiveCfg = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|x64.Build.0 = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|x86.ActiveCfg = Release|Any CPU
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEA1085B-3DEA-4B89-A005-AE39BA37536B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{45294517-E94F-4D16-AA9D-5EC169CA3C98} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{F91DE79B-6E6D-4D7D-B299-9C2FCD441925} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+	EndGlobalSection
+EndGlobal
