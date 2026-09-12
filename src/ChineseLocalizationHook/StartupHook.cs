@@ -57,11 +57,11 @@ internal class StartupHook
         { "&Help", "帮助(&H)" },
         { "About...", "关于..." },
         { "About", "关于" },
-        { "About OpenTabletDriver", "关于 OpenTabletDriver" },
+        { "About OpenTabletDriver", "关于 OpenTabletDriver (汉化: LinHouYu)" },
         { "Open Wiki...", "打开说明文档 Wiki..." },
         { "Open Wiki", "打开说明文档 Wiki" },
         { "Wiki", "说明文档 Wiki" },
-        { "OpenTabletDriver Guide", "OpenTabletDriver 使用指南" },
+        { "OpenTabletDriver Guide", "OpenTabletDriver 使用指南 (汉化: LinHouYu)" },
         { "Show guide...", "显示使用指南..." },
         { "Export diagnostics...", "导出诊断报告..." },
         { "Export diagnostics to Clipboard...", "复制诊断报告到剪贴板..." },
@@ -258,7 +258,7 @@ internal class StartupHook
                 string logsDir = Path.Combine(baseDir, "userdata", "Logs");
                 Directory.CreateDirectory(logsDir);
                 _logPath = Path.Combine(logsDir, "ChineseLocalization.log");
-                File.AppendAllText(_logPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 简体中文汉化挂载成功: 进程 {proc} (PID: {Environment.ProcessId})\n");
+                File.AppendAllText(_logPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] 简体中文汉化挂载成功 (作者: LinHouYu https://github.com/LinHouYu): 进程 {proc} (PID: {Environment.ProcessId})\n");
             }
             catch { }
 
@@ -320,7 +320,7 @@ internal class StartupHook
                 string? title = titleProp.GetValue(form) as string;
                 if (!string.IsNullOrEmpty(title) && !title.Contains("【中文增强"))
                 {
-                    titleProp.SetValue(form, $"{title} 【中文增强版】");
+                    titleProp.SetValue(form, $"{title} 【中文增强版 by LinHouYu】");
                 }
             }
 
@@ -423,7 +423,7 @@ internal class StartupHook
                 string? title = titleProp.GetValue(element) as string;
                 if (!string.IsNullOrEmpty(title) && !title.Contains("【中文增强"))
                 {
-                    string newTitle = $"{title} 【中文增强版】";
+                    string newTitle = $"{title} 【中文增强版 by LinHouYu】";
                     titleProp.SetValue(element, newTitle);
                     LogTranslation("Title", title, newTitle);
                 }

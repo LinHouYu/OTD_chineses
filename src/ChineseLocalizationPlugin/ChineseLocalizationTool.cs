@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
 using OpenTabletDriver.Plugin;
 using OpenTabletDriver.Plugin.Attributes;
 
 namespace OpenTabletDriver.Localization.Chinese
 {
-    [PluginName("简体中文汉化增强 (Chinese Localization)")]
+    [PluginName("简体中文汉化增强 (Chinese Localization) - By LinHouYu")]
     public sealed class ChineseLocalizationTool : ITool
     {
         public ChineseLocalizationTool()

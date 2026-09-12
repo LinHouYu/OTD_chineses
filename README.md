@@ -1,4 +1,4 @@
-﻿# OpenTabletDriver 简体中文界面汉化增强插件 (Chinese Localization Plugin)
+# OpenTabletDriver 简体中文界面汉化增强插件 (Chinese Localization Plugin)
 
 [![Release](https://img.shields.io/github/v/release/LinHouYu/OTD_chineses?style=flat-square)](https://github.com/LinHouYu/OTD_chineses/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0)
@@ -86,6 +86,15 @@ OpenTabletDriver 采用“无界面后台守护服务 (Daemon) + 独立前台客
 
 ---
 
+## 👨‍💻 作者信息 (Author)
+
+- **作者 / Author**: LinHouYu
+- **GitHub 个人主页**: [https://github.com/LinHouYu](https://github.com/LinHouYu)
+- **项目仓库 / Repository**: [https://github.com/LinHouYu/OTD_chineses](https://github.com/LinHouYu/OTD_chineses)
+
+---
+
 ## 📄 开源许可证 (License)
 
 本项目遵循 [GNU General Public License v3.0 (GPL-3.0)](LICENSE) 开源协议。
+
