@@ -54,6 +54,7 @@ jobs:
           tag_name: ${{ steps.vars.outputs.TAG }}
           files: |
             dist/ChineseLocalization.zip
+            dist/ChineseLocalization.json
             dist/ChineseLocalization.dll
             dist/ChineseLocalizationHook.dll
             dist/OpenTabletDriver.UX.Wpf.exe

@@ -20,17 +20,18 @@
 
 ## 📥 安装使用方式 (Installation)
 
-### 方式一：使用一键安装包 (推荐小白用户)
+### 方式一：通过 OpenTabletDriver 插件管理器安装 (推荐，直接拖入即用)
 1. 前往 [Releases](https://github.com/LinHouYu/OTD_chineses/releases) 下载最新发布的 `ChineseLocalization.zip`。
-2. 解压压缩包，将所有文件直接复制到 OpenTabletDriver 主程序所在目录（与 `OpenTabletDriver.UX.Wpf.exe` 同级）。
-3. 双击运行 `install.bat`，根据提示按任意键完成自动部署。
-4. 启动 OpenTabletDriver，享受全中文界面！
-
-### 方式二：通过 OpenTabletDriver 插件管理器安装
-1. 下载 `ChineseLocalization.zip`。
 2. 打开 OpenTabletDriver，点击顶部菜单 `插件 (Plugins)` -> `打开插件管理器 (Open Plugin Manager...)`。
-3. 将下载的 `ChineseLocalization.zip` 拖入插件管理器窗口完成安装。
-4. 重启驱动服务与图形界面，汉化即刻生效。
+3. 直接将下载的 `ChineseLocalization.zip` **拖入插件管理器窗口**，提示安装完成。
+4. 切换到 `实用工具 (Tools)` 选项卡，勾选 `[√] 简体中文汉化增强 (Chinese Localization) - By LinHouYu`。
+5. 屏幕会自动弹出提示框，点击 **【确定】**，驱动界面将在 1 秒内自动重启并呈现全量中文！
+   *(如需恢复原生英文，只需取消勾选该工具并点击确定重启)*
+
+### 方式二：手动便携安装 (免开插件管理器)
+1. 下载 `ChineseLocalization.zip` 并解压。
+2. 将 `ChineseLocalization.dll` 和 `ChineseLocalizationHook.dll` 复制到 OpenTabletDriver 根目录。
+3. 运行驱动即可享受汉化。
 
 ---
 
@@ -38,20 +39,21 @@
 
 OpenTabletDriver 采用“无界面后台守护服务 (Daemon) + 独立前台客户端 (UX.Wpf)”的分层架构。传统驱动插件仅运行于 Daemon 内部，无法触及前台图形树。
 
-本插件创造性地采用复合注入架构：
+本插件创新性地采用原生挂钩与智能宿主接管架构：
 ```
-[用户双击快捷方式 / 直接打开 OpenTabletDriver.UX.Wpf.exe]
-                     │
-                     ▼
-[透明 WinExe 启动器 (OTD-Launcher)]
-  ├─ 检查当前目录的 ChineseLocalizationHook.dll
-  └─ 携带 DOTNET_STARTUP_HOOKS 启动 OpenTabletDriver.UX.Wpf.Core.exe
-                     │
-                     ▼
-[核心界面进程 OpenTabletDriver.UX.Wpf.Core.exe]
-  ├─ CoreCLR 在 Main() 之前自动挂载 StartupHook.Initialize()
-  ├─ 实时遍历 WPF 视觉树与 Eto.Forms 树，200+ 词条精准汉化
-  └─ 后台守护线程自动汉化动态切换的面板与弹窗
+[用户在 OTD 插件管理器拖拽安装 ChineseLocalization.zip]
+                         │
+                         ▼
+[OTD 守护服务 Daemon 加载 ChineseLocalization.dll 插件]
+   ├─ 用户在 Tools 选项卡勾选启用
+   ├─ 自动配置用户级环境挂钩 DOTNET_STARTUP_HOOKS
+   └─ 弹窗询问用户并一键平滑重启 UX 前台界面
+                         │
+                         ▼
+[核心界面进程 OpenTabletDriver.UX.Wpf.exe (100% 官方原版未修改)]
+   ├─ CoreCLR 在 Main() 之前自动挂载 StartupHook.Initialize()
+   ├─ 实时遍历 WPF 视觉树与 Eto.Forms 树，200+ 词条精准汉化
+   └─ 后台守护线程自动汉化动态切换的面板与弹窗
 ```
 
 ---
@@ -62,27 +64,30 @@ OpenTabletDriver 采用“无界面后台守护服务 (Daemon) + 独立前台客
 - Windows 10 / 11 (x64)
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) 或更高版本
 
-### 一键构建打包
 在 PowerShell 中运行根目录下的自动化构建脚本：
 ```powershell
 ./build.ps1
 ```
 脚本执行完毕后，将在 `dist/` 目录下生成：
-- `ChineseLocalization.zip`（官方规范插件压缩包）
+- `ChineseLocalization.zip`（官方标准纯净插件包，仅含 DLL 与元数据，拖入即可安装）
+- `ChineseLocalization.json`（已自动计算 SHA256，用于提交至官方插件仓库）
 - `ChineseLocalization.dll`（驱动插件）
 - `ChineseLocalizationHook.dll`（UI 翻译挂钩）
 - `OpenTabletDriver.UX.Wpf.exe`（透明启动器）
-- `metadata.json`（插件元数据）
 
 ---
 
-## 🤝 提交至 OpenTabletDriver 官方仓库指引
+## 🤝 提交至 OpenTabletDriver 官方仓库指引 (PR Guide)
 
-如需将本插件推送到官方 [OpenTabletDriver/Plugin-Repository](https://github.com/OpenTabletDriver/Plugin-Repository)：
-1. Fork 官方插件仓库。
-2. 在 `Repository/0.6.0.0/` 下创建 `ChineseLocalization` 文件夹。
-3. 放入本项目的 `metadata.json` 与编译生成的 `ChineseLocalization.zip`。
-4. 提交 Pull Request，官方合并后全球用户即可在驱动内一键联网搜索安装！
+OpenTabletDriver 官方插件列表由 [OpenTabletDriver/Plugin-Repository](https://github.com/OpenTabletDriver/Plugin-Repository) 统一维护。官方合并后，全世界用户只要在驱动内搜索 `Chinese` 即可直接在线下载！
+
+提交步骤：
+1. 打开 [OpenTabletDriver/Plugin-Repository](https://github.com/OpenTabletDriver/Plugin-Repository)，点击右上角 **Fork**。
+2. 在您 Fork 的仓库中创建目录路径：
+   `Repository/0.6.0.0/LinHouYu/ChineseLocalization/`
+3. 将本项目自动生成的 `dist/ChineseLocalization.json` 复制到该目录下（本项目 `official_repository/` 目录中已为您准备好该目录结构）。
+4. 提交更改并向官方仓库发起 **Pull Request (PR)**。
+5. 官方自动化 CI 验证通过后合并，插件即可正式登陆 OpenTabletDriver 官网与驱动内置插件商店！
 
 ---
 
