@@ -46,21 +46,12 @@ namespace OpenTabletDriver.Localization.Chinese
             try
             {
                 string pluginDir = Path.GetDirectoryName(typeof(ChineseLocalizationTool).Assembly.Location) ?? AppDomain.CurrentDomain.BaseDirectory;
-                string hookDll = Path.Combine(pluginDir, "ChineseLocalizationHook.dll");
+                string targetHook = Path.Combine(pluginDir, "ChineseLocalizationHook.dll");
                 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                string baseHook = Path.Combine(baseDir, "ChineseLocalizationHook.dll");
 
                 if (enable)
                 {
-                    // 1. 同步 Hook DLL 到程序基目录（若权限允许）
-                    if (File.Exists(hookDll))
-                    {
-                        try { File.Copy(hookDll, baseHook, true); } catch { }
-                    }
-
-                    string targetHook = File.Exists(baseHook) ? baseHook : hookDll;
-
-                    // 2. 检查用户级环境变量 DOTNET_STARTUP_HOOKS
+                    // 1. 直接引用 userdata/Plugins 插件目录下的 Hook DLL，绝不修改或污染软件根目录
                     string? currentHook = Environment.GetEnvironmentVariable("DOTNET_STARTUP_HOOKS", EnvironmentVariableTarget.User);
                     bool isNewlyConfigured = !string.Equals(currentHook, targetHook, StringComparison.OrdinalIgnoreCase);
 

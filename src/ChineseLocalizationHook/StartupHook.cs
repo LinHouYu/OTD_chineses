@@ -79,6 +79,7 @@ internal class StartupHook
         { "Tools", "实用工具 (Tools)" },
         { "Info", "设备信息 (Info)" },
         { "Information", "设备信息 (Info)" },
+        { "Console", "控制台 (Console)" },
 
         // ==================== 常用操作按钮 (Buttons) ====================
         { "_Apply", "应用(_A)" },
@@ -164,6 +165,34 @@ internal class StartupHook
         { "Eraser Activation Threshold", "橡皮擦激活阈值" },
         { "Eraser", "橡皮擦" },
         { "Pen Buttons", "笔身按键" },
+        { "Pen Binding 1", "数位笔按键 1" },
+        { "Pen Binding 2", "数位笔按键 2" },
+        { "Pen Binding 3", "数位笔按键 3" },
+        { "Pen Binding 4", "数位笔按键 4" },
+        { "Auxiliary Binding 1", "快捷键 1" },
+        { "Auxiliary Binding 2", "快捷键 2" },
+        { "Auxiliary Binding 3", "快捷键 3" },
+        { "Auxiliary Binding 4", "快捷键 4" },
+        { "Auxiliary Binding 5", "快捷键 5" },
+        { "Auxiliary Binding 6", "快捷键 6" },
+        { "Auxiliary Binding 7", "快捷键 7" },
+        { "Auxiliary Binding 8", "快捷键 8" },
+        { "Auxiliary Binding 9", "快捷键 9" },
+        { "Auxiliary Binding 10", "快捷键 10" },
+        { "Auxiliary Binding 11", "快捷键 11" },
+        { "Auxiliary Binding 12", "快捷键 12" },
+        { "Auxiliary Binding 13", "快捷键 13" },
+        { "Auxiliary Binding 14", "快捷键 14" },
+        { "Auxiliary Binding 15", "快捷键 15" },
+        { "Auxiliary Binding 16", "快捷键 16" },
+        { "Miscellaneous", "其他设置" },
+        { "Disable Pressure", "禁用压感" },
+        { "Disable Tilt", "禁用倾斜" },
+        { "Drag Bindings", "允许拖拽映射" },
+        { "Adaptive Binding: (Binding: Eraser)", "自适应绑定: (橡皮擦)" },
+        { "VMulti Mode: (Button: Left)", "VMulti 映射: (鼠标左键)" },
+        { "VMulti Mode: (Button: Right)", "VMulti 映射: (鼠标右键)" },
+        { "VMulti Mode: (Button: Middle)", "VMulti 映射: (鼠标中键)" },
         { "Binding Editor", "按键绑定编辑器" },
         { "Advanced Binding Editor", "高级按键绑定编辑器" },
         { "Button 1", "按键 1" },
@@ -314,13 +343,15 @@ internal class StartupHook
         {
             var t = form.GetType();
 
+            // 保持官方原生标题，清除任何可能存在的【中文增强版】标记
             var titleProp = t.GetProperty("Title");
             if (titleProp != null && titleProp.CanWrite && titleProp.PropertyType == typeof(string))
             {
                 string? title = titleProp.GetValue(form) as string;
-                if (!string.IsNullOrEmpty(title) && !title.Contains("【中文增强"))
+                if (!string.IsNullOrEmpty(title) && title.Contains("【中文增强"))
                 {
-                    titleProp.SetValue(form, $"{title} 【中文增强版 by LinHouYu】");
+                    string cleanTitle = title.Replace("【中文增强版 by LinHouYu】", "").Replace("【中文增强版】", "").Trim();
+                    titleProp.SetValue(form, cleanTitle);
                 }
             }
 
@@ -350,13 +381,9 @@ internal class StartupHook
             if (textProp != null && textProp.CanWrite && textProp.PropertyType == typeof(string))
             {
                 string? text = textProp.GetValue(item) as string;
-                if (!string.IsNullOrWhiteSpace(text))
+                if (TryTranslateText(text, out var trans))
                 {
-                    string raw = text.Trim();
-                    if (Dictionary.TryGetValue(raw, out var trans))
-                    {
-                        textProp.SetValue(item, trans);
-                    }
+                    textProp.SetValue(item, trans);
                 }
             }
 
@@ -416,16 +443,15 @@ internal class StartupHook
         {
             var t = element.GetType();
 
-            // 1. 窗口标题 (Window.Title)
+            // 1. 窗口标题: 严格保持官方原生标题，删除所有【中文增强版】标记
             var titleProp = t.GetProperty("Title");
             if (titleProp != null && titleProp.CanWrite && titleProp.PropertyType == typeof(string))
             {
                 string? title = titleProp.GetValue(element) as string;
-                if (!string.IsNullOrEmpty(title) && !title.Contains("【中文增强"))
+                if (!string.IsNullOrEmpty(title) && title.Contains("【中文增强"))
                 {
-                    string newTitle = $"{title} 【中文增强版 by LinHouYu】";
-                    titleProp.SetValue(element, newTitle);
-                    LogTranslation("Title", title, newTitle);
+                    string cleanTitle = title.Replace("【中文增强版 by LinHouYu】", "").Replace("【中文增强版】", "").Trim();
+                    titleProp.SetValue(element, cleanTitle);
                 }
             }
 
@@ -434,14 +460,10 @@ internal class StartupHook
             if (textProp != null && textProp.CanWrite && textProp.PropertyType == typeof(string))
             {
                 string? text = textProp.GetValue(element) as string;
-                if (!string.IsNullOrWhiteSpace(text))
+                if (TryTranslateText(text, out var trans))
                 {
-                    string raw = text.Trim();
-                    if (Dictionary.TryGetValue(raw, out var trans))
-                    {
-                        textProp.SetValue(element, trans);
-                        LogTranslation("Text", raw, trans);
-                    }
+                    textProp.SetValue(element, trans);
+                    LogTranslation("Text", text ?? "", trans);
                 }
             }
 
@@ -450,14 +472,10 @@ internal class StartupHook
             if (headerProp != null && headerProp.CanWrite)
             {
                 object? headerVal = headerProp.GetValue(element);
-                if (headerVal is string headerStr && !string.IsNullOrWhiteSpace(headerStr))
+                if (headerVal is string headerStr && TryTranslateText(headerStr, out var trans))
                 {
-                    string raw = headerStr.Trim();
-                    if (Dictionary.TryGetValue(raw, out var trans))
-                    {
-                        headerProp.SetValue(element, trans);
-                        LogTranslation("Header", raw, trans);
-                    }
+                    headerProp.SetValue(element, trans);
+                    LogTranslation("Header", headerStr, trans);
                 }
             }
 
@@ -466,18 +484,26 @@ internal class StartupHook
             if (contentProp != null && contentProp.CanWrite)
             {
                 object? contentVal = contentProp.GetValue(element);
-                if (contentVal is string contentStr && !string.IsNullOrWhiteSpace(contentStr))
+                if (contentVal is string contentStr && TryTranslateText(contentStr, out var trans))
                 {
-                    string raw = contentStr.Trim();
-                    if (Dictionary.TryGetValue(raw, out var trans))
-                    {
-                        contentProp.SetValue(element, trans);
-                        LogTranslation("Content", raw, trans);
-                    }
+                    contentProp.SetValue(element, trans);
+                    LogTranslation("Content", contentStr, trans);
                 }
             }
 
-            // 5. 递归遍历 Visual 子树 (VisualTreeHelper)
+            // 5. ToolTip 提示属性
+            var tooltipProp = t.GetProperty("ToolTip");
+            if (tooltipProp != null && tooltipProp.CanWrite)
+            {
+                object? tipVal = tooltipProp.GetValue(element);
+                if (tipVal is string tipStr && TryTranslateText(tipStr, out var trans))
+                {
+                    tooltipProp.SetValue(element, trans);
+                    LogTranslation("ToolTip", tipStr, trans);
+                }
+            }
+
+            // 6. 递归遍历 Visual 子树 (VisualTreeHelper)
             var pcAsm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "PresentationCore");
             var vthType = pcAsm?.GetType("System.Windows.Media.VisualTreeHelper");
             if (vthType != null)
@@ -496,6 +522,95 @@ internal class StartupHook
             }
         }
         catch { }
+    }
+
+    public static bool TryTranslateText(string? input, out string result)
+    {
+        result = string.Empty;
+        if (string.IsNullOrWhiteSpace(input)) return false;
+
+        string raw = input.Trim();
+
+        // 1. 精准词典匹配
+        if (Dictionary.TryGetValue(raw, out var trans))
+        {
+            result = trans;
+            return true;
+        }
+
+        // 2. 动态模式规则匹配
+        // 2.1 快捷键模式: "Auxiliary Binding 1" -> "快捷键 1"
+        if (raw.StartsWith("Auxiliary Binding ", StringComparison.OrdinalIgnoreCase))
+        {
+            string num = raw.Substring("Auxiliary Binding ".Length).Trim();
+            result = $"快捷键 {num}";
+            return true;
+        }
+        if (raw.StartsWith("Auxiliary ", StringComparison.OrdinalIgnoreCase) && char.IsDigit(raw[^1]))
+        {
+            string num = raw.Substring("Auxiliary ".Length).Trim();
+            result = $"快捷键 {num}";
+            return true;
+        }
+
+        // 2.2 数位笔按键: "Pen Binding 1" -> "数位笔按键 1"
+        if (raw.StartsWith("Pen Binding ", StringComparison.OrdinalIgnoreCase))
+        {
+            string num = raw.Substring("Pen Binding ".Length).Trim();
+            result = $"数位笔按键 {num}";
+            return true;
+        }
+        if (raw.StartsWith("Pen Button ", StringComparison.OrdinalIgnoreCase))
+        {
+            string num = raw.Substring("Pen Button ".Length).Trim();
+            result = $"数位笔按键 {num}";
+            return true;
+        }
+
+        // 2.3 Express Key: "Express Key 1" -> "快捷键 1"
+        if (raw.StartsWith("Express Key ", StringComparison.OrdinalIgnoreCase))
+        {
+            string num = raw.Substring("Express Key ".Length).Trim();
+            result = $"快捷键 {num}";
+            return true;
+        }
+
+        // 2.4 通用 Button: "Button 1" -> "按键 1"
+        if (raw.StartsWith("Button ", StringComparison.OrdinalIgnoreCase))
+        {
+            string num = raw.Substring("Button ".Length).Trim();
+            result = $"按键 {num}";
+            return true;
+        }
+
+        // 2.5 常见复合按键映射文本替换 (如图片所示)
+        if (raw.Contains("VMulti Mode: (Button: Left)", StringComparison.OrdinalIgnoreCase))
+        {
+            result = raw.Replace("VMulti Mode: (Button: Left)", "VMulti: (鼠标左键)");
+            return true;
+        }
+        if (raw.Contains("VMulti Mode: (Button: Right)", StringComparison.OrdinalIgnoreCase))
+        {
+            result = raw.Replace("VMulti Mode: (Button: Right)", "VMulti: (鼠标右键)");
+            return true;
+        }
+        if (raw.Contains("VMulti Mode: (Button: Middle)", StringComparison.OrdinalIgnoreCase))
+        {
+            result = raw.Replace("VMulti Mode: (Button: Middle)", "VMulti: (鼠标中键)");
+            return true;
+        }
+        if (raw.Contains("Adaptive Binding: (Binding: Eraser)", StringComparison.OrdinalIgnoreCase))
+        {
+            result = raw.Replace("Adaptive Binding: (Binding: Eraser)", "自适应绑定: (橡皮擦)");
+            return true;
+        }
+        if (raw.Contains("Adaptive Binding: Eraser", StringComparison.OrdinalIgnoreCase))
+        {
+            result = raw.Replace("Adaptive Binding: Eraser", "自适应绑定: (橡皮擦)");
+            return true;
+        }
+
+        return false;
     }
 
     private static void LogTranslation(string category, string raw, string trans)
